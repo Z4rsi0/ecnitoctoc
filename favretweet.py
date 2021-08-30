@@ -21,7 +21,7 @@ class FavRetweetListener(tweepy.StreamListener):
     def on_status(self, tweet):
         logger.info("Processing tweet ")
         if tweet.in_reply_to_status_id is not None or \
-            tweet.user.id == self.me.id or tweet.user.following == True:
+            tweet.user.id == self.me.id or tweet.user.following == True:   #troisième option à corriger et déplacer
             logger.info("Not you")
             # This tweet is a reply or I'm its author so, ignore it
             return
@@ -31,13 +31,13 @@ class FavRetweetListener(tweepy.StreamListener):
 #            return
 
         if not tweet.favorited:
-            # Mark it as Liked, since we have not done it yet
+            # fav si pas déjà fav
             try:
                 tweet.favorite()
             except Exception as e:
                 logger.error("Error on fav", exc_info=True)
         if not tweet.retweeted:
-            # Retweet, since we have not retweeted it yet
+            # rt si pas déjà fait
             try:
                 tweet.retweet()
             except Exception as e:
@@ -53,4 +53,4 @@ def main(keywords):
     stream.filter(track=keywords)
 
 if __name__ == "__main__":
-    main(["#ecnitoctoc", "#ECNiTocToc", "#Ecnitoctoc", "#ECNITOCTOC"])
+    main(["#ecnitoctoc"])
